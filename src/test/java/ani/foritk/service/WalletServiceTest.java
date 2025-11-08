@@ -112,8 +112,8 @@ class WalletServiceTest {
         Wallet wallet = new Wallet();
         wallet.setId(id);
         wallet.setBalance(new BigDecimal("50.3"));
-        BigDecimal withdrawAmount = new BigDecimal("15.6");
-        UpdateWalletDto updateWalletDto = new UpdateWalletDto(id, OperationType.DEPOSIT, withdrawAmount);
+        BigDecimal depositAmount = new BigDecimal("15.6");
+        UpdateWalletDto updateWalletDto = new UpdateWalletDto(id, OperationType.DEPOSIT, depositAmount);
 
         when(walletRepository.findByIdAndLock(any())).thenReturn(Optional.of(wallet));
         when(walletRepository.save(any())).thenReturn(new Wallet());
