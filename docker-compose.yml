@@ -1,0 +1,37 @@
+version: '3.8'
+
+services:
+  db:
+    image: postgres:15
+    container_name: wallet_db
+    environment:
+      - POSTGRES_DB=wallet_db
+      - POSTGRES_USER=walletuser
+      - POSTGRES_PASSWORD=walletpass
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - wallet-net
+
+  app:
+    build: ../../Desktop
+    container_name: wallet_app
+    ports:
+      - "8080:8080"
+    depends_on:
+      - db
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/wallet_db
+      - SPRING_DATASOURCE_USERNAME=walletuser
+      - SPRING_DATASOURCE_PASSWORD=walletpass
+      - SPRING_LIQUIBASE_CHANGE_LOG=classpath:db/changelog/db.changelog-master.yml
+      - SPRING_JPA_HIBERNATE_DDL_AUTO=validate
+    networks:
+      - wallet-net
+
+networks:
+  wallet-net:
+    driver: bridge
+
+volumes:
+  postgres_data:
