@@ -14,7 +14,7 @@ services:
       - wallet-net
 
   app:
-    build: ../../Desktop
+    build: .
     container_name: wallet_app
     ports:
       - "8080:8080"
